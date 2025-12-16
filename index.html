@@ -110,7 +110,7 @@
     <main class="flex-1 relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black flex flex-col">
         
         <!-- SCREEN 1: DASHBOARD -->
-        <div id="screen-dashboard" class="screen active flex-col p-6 gap-6 overflow-y-auto pb-28 w-full max-w-lg mx-auto h-full">
+        <div id="screen-dashboard" class="screen active flex-col p-6 gap-6 overflow-y-auto pb-32 w-full max-w-lg mx-auto h-full">
             
             <!-- Daily Challenge Card -->
             <div class="relative group shrink-0">
@@ -156,25 +156,15 @@
                 </div>
             </div>
 
-            <!-- History List -->
-            <div class="flex-1 animate-slide-up" style="animation-delay: 0.2s;">
-                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    Recent Activity
-                </h3>
-                <div id="history-list" class="space-y-3 pb-4">
-                    <!-- History items injected here -->
-                    <div class="text-center text-slate-600 py-10 glass rounded-xl border-dashed border-slate-700">
-                        <i data-lucide="footprints" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
-                        <p class="text-sm">No runs recorded yet.</p>
-                    </div>
-                </div>
+            <div class="text-center text-slate-500 text-xs mt-4">
+                View your full history in the Activity tab
             </div>
         </div>
 
         <!-- SCREEN 2: ACTIVE RUN -->
         <div id="screen-run" class="screen flex-col items-center justify-center min-h-full p-6 bg-black absolute inset-0 z-20">
-            
-            <!-- Ambient Background -->
+            <!-- ... (Run Screen Code) ... -->
+             <!-- Ambient Background -->
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black pointer-events-none"></div>
 
             <!-- GPS Status -->
@@ -227,9 +217,9 @@
         </div>
 
         <!-- SCREEN 3: SUMMARY -->
-        <div id="screen-summary" class="screen flex-col p-6 min-h-full pb-20 w-full max-w-lg mx-auto overflow-y-auto">
-            
-            <div class="text-center mb-6 animate-slide-up">
+        <div id="screen-summary" class="screen flex-col p-6 min-h-full pb-32 w-full max-w-lg mx-auto overflow-y-auto">
+            <!-- ... (Summary Screen Code) ... -->
+             <div class="text-center mb-6 animate-slide-up">
                 <div class="inline-block p-3 rounded-full bg-emerald-500/10 mb-3 border border-emerald-500/20">
                     <i data-lucide="check" class="w-8 h-8 text-emerald-400"></i>
                 </div>
@@ -284,7 +274,8 @@
         </div>
 
         <!-- SCREEN 4: PROFILE -->
-        <div id="screen-profile" class="screen flex-col p-6 min-h-full pb-28 w-full max-w-lg mx-auto overflow-y-auto">
+        <div id="screen-profile" class="screen flex-col p-6 min-h-full pb-32 w-full max-w-lg mx-auto overflow-y-auto">
+            <!-- ... (Profile Screen Code) ... -->
             <h2 class="text-2xl font-bold mb-6">Settings & Profile</h2>
             
             <div class="glass p-6 rounded-2xl mb-6 space-y-4">
@@ -315,7 +306,8 @@
 
         <!-- SCREEN 5: AI COACH CHAT -->
         <div id="screen-chat" class="screen flex-col min-h-full w-full max-w-lg mx-auto relative h-full">
-            <div class="p-4 bg-slate-900/90 backdrop-blur border-b border-white/5 sticky top-0 z-10 shrink-0">
+            <!-- ... (Chat Screen Code) ... -->
+             <div class="p-4 bg-slate-900/90 backdrop-blur border-b border-white/5 sticky top-0 z-10 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                         <i data-lucide="bot" class="w-6 h-6 text-slate-900"></i>
@@ -331,7 +323,7 @@
             </div>
 
             <!-- Messages Area -->
-            <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto pb-28">
+            <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto pb-32">
                 <!-- Intro Message -->
                 <div class="flex gap-3 chat-bubble chat-bot">
                     <div class="flex-1">
@@ -341,7 +333,7 @@
             </div>
 
             <!-- Input Area -->
-            <div class="p-4 bg-slate-900 border-t border-white/5 backdrop-blur-md shrink-0 mb-[70px]">
+            <div class="p-4 bg-slate-900 border-t border-white/5 backdrop-blur-md shrink-0 mb-24">
                 <form id="chat-form" class="flex gap-2 relative">
                     <input type="text" id="chat-input" class="flex-1 bg-slate-800 border border-slate-700 text-white text-sm rounded-full pl-5 pr-4 py-3.5 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner" placeholder="Ask about warmups, diet, pain..." autocomplete="off">
                     <button type="submit" class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-slate-900 hover:bg-emerald-400 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 shrink-0">
@@ -351,32 +343,51 @@
             </div>
         </div>
 
+        <!-- SCREEN 6: NEW ACTIVITY HISTORY -->
+        <div id="screen-activity" class="screen flex-col p-6 gap-6 overflow-y-auto pb-32 w-full max-w-lg mx-auto h-full">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold">Activity History</h2>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Recent Runs</span>
+            </div>
+            
+            <div id="history-list" class="space-y-3 pb-4">
+                <!-- History items injected here -->
+                <div class="text-center text-slate-600 py-10 glass rounded-xl border-dashed border-slate-700">
+                    <i data-lucide="footprints" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+                    <p class="text-sm">No runs recorded yet.</p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 glass-panel pb-safe pt-2 px-6 flex justify-between items-end z-50">
-        <button class="nav-btn active p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="dashboard">
+    <nav class="fixed bottom-0 left-0 right-0 glass-panel pb-safe pt-2 px-2 grid grid-cols-5 items-end z-50 gap-1">
+        <button class="nav-btn active p-3 flex flex-col items-center justify-center gap-1 text-slate-500 transition-colors" data-target="dashboard">
             <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
-            <span class="text-[10px] font-bold">Run</span>
+            <span class="text-[10px] font-bold truncate w-full text-center">Run</span>
         </button>
 
-        <button class="nav-btn p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="chat">
+        <button class="nav-btn p-3 flex flex-col items-center justify-center gap-1 text-slate-500 transition-colors" data-target="chat">
             <i data-lucide="message-square-more" class="w-6 h-6"></i>
-            <span class="text-[10px] font-bold">Coach</span>
+            <span class="text-[10px] font-bold truncate w-full text-center">Coach</span>
         </button>
         
-        <!-- Floating Action Button effect for center -->
-        <div class="relative -top-5 mx-2">
+        <!-- Center Action Button -->
+        <div class="relative -top-6 flex justify-center">
             <button id="nav-btn-center" class="w-14 h-14 bg-emerald-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center justify-center text-white hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95" onclick="document.getElementById('btn-start-run').click()">
                 <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
             </button>
         </div>
 
-        <!-- Spacer for center button balance if needed, but flex-between handles it with margins -->
+        <button class="nav-btn p-3 flex flex-col items-center justify-center gap-1 text-slate-500 transition-colors" data-target="activity">
+            <i data-lucide="history" class="w-6 h-6"></i>
+            <span class="text-[10px] font-bold truncate w-full text-center">Activity</span>
+        </button>
         
-        <button class="nav-btn p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="profile">
+        <button class="nav-btn p-3 flex flex-col items-center justify-center gap-1 text-slate-500 transition-colors" data-target="profile">
             <i data-lucide="user" class="w-6 h-6"></i>
-            <span class="text-[10px] font-bold">Profile</span>
+            <span class="text-[10px] font-bold truncate w-full text-center">Profile</span>
         </button>
     </nav>
 
@@ -418,7 +429,8 @@
                 run: document.getElementById('screen-run'),
                 summary: document.getElementById('screen-summary'),
                 profile: document.getElementById('screen-profile'),
-                chat: document.getElementById('screen-chat')
+                chat: document.getElementById('screen-chat'),
+                activity: document.getElementById('screen-activity')
             },
             navBtns: document.querySelectorAll('.nav-btn'),
             
@@ -426,9 +438,11 @@
             xp: document.getElementById('user-xp'),
             totalDist: document.getElementById('total-dist'),
             totalCals: document.getElementById('total-cals'),
-            historyList: document.getElementById('history-list'),
             challengeText: document.getElementById('challenge-text'),
             challengeReward: document.getElementById('challenge-reward'),
+
+            // Activity History (Moved here)
+            historyList: document.getElementById('history-list'),
 
             // Run
             timer: document.getElementById('timer-display'),
@@ -565,7 +579,7 @@
             ui.screens[screenName].classList.add('active');
             
             // Refresh icons or specific screen data
-            if(screenName === 'dashboard') updateDashboard();
+            if(screenName === 'dashboard' || screenName === 'activity') updateDashboard();
             if(screenName === 'profile') loadProfileUI();
             if(screenName === 'chat') {
                 setTimeout(() => ui.chatMessages.scrollTop = ui.chatMessages.scrollHeight, 100);
@@ -604,10 +618,7 @@
         function appendMessage(role, text) {
             const div = document.createElement('div');
             div.className = `flex gap-3 chat-bubble ${role === 'user' ? 'chat-user ml-auto' : 'chat-bot'}`;
-            
-            // For bot, add icon if desired, keeping simple text bubble for now
             div.innerHTML = text;
-            
             ui.chatMessages.appendChild(div);
             ui.chatMessages.scrollTop = ui.chatMessages.scrollHeight;
         }
@@ -630,15 +641,9 @@
 
         function findBestResponse(input) {
             const lowerInput = input.toLowerCase();
-            
-            // Look for match in DB
             for(const item of chatDB) {
-                if(item.keywords.some(k => lowerInput.includes(k))) {
-                    return item.response;
-                }
+                if(item.keywords.some(k => lowerInput.includes(k))) return item.response;
             }
-            
-            // Fallbacks
             const fallbacks = [
                 "That's an interesting running topic! Could you be more specific?",
                 "I'm mostly an expert on running, nutrition, and gear. Can you rephrase that?",
@@ -651,14 +656,8 @@
         // --- CORE RUN LOGIC ---
         function startRun() {
             if (state.isRunning) return;
-            
-            if (!navigator.geolocation) {
-                alert("Geolocation required.");
-                return;
-            }
-
+            if (!navigator.geolocation) { alert("Geolocation required."); return; }
             requestWakeLock();
-            
             state.isRunning = true;
             state.isAutoPaused = false;
             state.startTime = Date.now();
@@ -681,38 +680,26 @@
             ui.autoPauseIndicator.classList.add('hidden');
             
             switchScreen('run');
-            document.querySelector('nav').style.display = 'none'; // Hide nav during run
-
-            // Timer Loop
+            document.querySelector('nav').style.display = 'none';
             state.timerInterval = setInterval(updateRunState, 1000);
-
-            // GPS Loop
-            state.watchId = navigator.geolocation.watchPosition(
-                handlePositionSuccess, 
-                handlePositionError, 
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-            );
+            state.watchId = navigator.geolocation.watchPosition(handlePositionSuccess, handlePositionError, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
         }
 
         function stopRun() {
             if (!state.isRunning) return;
-            
             state.isRunning = false;
             clearInterval(state.timerInterval);
             navigator.geolocation.clearWatch(state.watchId);
             if (state.wakeLock) state.wakeLock.release();
 
-            // Final Calculation
             const distKm = state.distance / 1000;
-            
-            // Check Challenge
-            let earnedXP = Math.floor(distKm * 20); // 20 XP per km base
+            let earnedXP = Math.floor(distKm * 20); 
             let challengeComplete = false;
             
             if (state.currentChallenge && checkChallengeCompletion(distKm, state.elapsedTime)) {
                 earnedXP += state.currentChallenge.reward;
                 challengeComplete = true;
-                confettiExplosion(); // Trigger Confetti
+                confettiExplosion();
             }
 
             state.totalXP += earnedXP;
@@ -731,7 +718,6 @@
             state.runHistory.unshift(runData);
             saveData();
 
-            // Prepare Summary UI
             ui.summaryDist.innerText = distKm.toFixed(2) + " km";
             ui.summaryTime.innerText = formatTime(state.elapsedTime);
             ui.summaryCals.innerText = state.calories;
@@ -745,24 +731,16 @@
                 ui.challengeBox.classList.remove('flex');
             }
 
-            // Route Visualization
-            ui.uploadOverlay.style.display = 'flex'; // Show upload prompt
-            drawRouteOnCanvas(null); // Draw route on black background initially
-
-            document.querySelector('nav').style.display = 'flex'; // Show nav
+            ui.uploadOverlay.style.display = 'flex'; 
+            drawRouteOnCanvas(null);
+            document.querySelector('nav').style.display = 'flex'; 
             switchScreen('summary');
         }
 
         function updateRunState() {
-            // Only update time if not paused
             if (!state.isAutoPaused) {
-                // We use increment approach or date diff. Since we pause, simple increment is safer to avoid jumps.
-                // However, date diff is more accurate for drift. 
-                // Let's use a simple counter for simplicity in this paused-based context.
                 state.elapsedTime += 1;
                 ui.timer.innerText = formatTime(state.elapsedTime);
-                
-                // Calorie Calc: MET * Kg * Hours
                 const hours = state.elapsedTime / 3600;
                 state.calories = Math.floor(CONFIG.MET_RUNNING * state.userWeight * hours);
                 ui.runCals.innerText = state.calories;
@@ -773,7 +751,6 @@
         function handlePositionSuccess(position) {
             const { latitude, longitude, accuracy, speed } = position.coords;
 
-            // Signal UI
             if (accuracy < 20) {
                 ui.gpsDot.className = "w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]";
                 ui.gpsText.innerText = state.isAutoPaused ? "AUTO-PAUSED" : "GPS LOCKED";
@@ -782,34 +759,22 @@
                 ui.gpsText.innerText = "SEARCHING";
             }
 
-            if (accuracy > 40) return; // Filter weak signals
+            if (accuracy > 40) return; 
 
-            // AUTO PAUSE LOGIC
-            // Use GPS speed if available, otherwise assume movement if we have distance
-            // 0.8 m/s is roughly 2.8 km/h. Walking speed is ~1.4 m/s.
             let currentSpeed = speed;
-            if (currentSpeed === null && state.lastPosition) {
-                // Fallback calc if hardware speed is null
-                // Note: accurate fallback requires precise timestamps which we can add later if needed
-                // For now, if speed is null, we might skip auto-pause or be lenient.
-                currentSpeed = 1.0; // Assume moving if no speed data to prevent false pause
-            }
+            if (currentSpeed === null && state.lastPosition) currentSpeed = 1.0; 
 
             if (currentSpeed !== null && currentSpeed < CONFIG.MIN_MOVEMENT_SPEED) {
                 state.lowSpeedCounter++;
-                // If low speed for 5 seconds, Pause
                 if (state.lowSpeedCounter > 5 && !state.isAutoPaused) {
                     state.isAutoPaused = true;
-                    // Visual feedback
                     ui.timer.classList.add('text-yellow-500');
                     ui.autoPauseIndicator.classList.remove('hidden');
                     ui.gpsText.innerText = "AUTO-PAUSED";
                 }
             } else {
-                // Moving
                 state.lowSpeedCounter = 0;
                 if (state.isAutoPaused) {
-                    // RESUME
                     state.isAutoPaused = false;
                     ui.timer.classList.remove('text-yellow-500');
                     ui.autoPauseIndicator.classList.add('hidden');
@@ -817,48 +782,28 @@
                 }
             }
 
-            // If paused, do not record distance/coords
             if (state.isAutoPaused) return;
 
-
             if (state.lastPosition) {
-                const distIncrement = calculateDistance(
-                    state.lastPosition.latitude, state.lastPosition.longitude,
-                    latitude, longitude
-                );
-
-                if (distIncrement > 2) { // 2m threshold for jitter
+                const distIncrement = calculateDistance(state.lastPosition.latitude, state.lastPosition.longitude, latitude, longitude);
+                if (distIncrement > 2) {
                     state.distance += distIncrement;
-                    
-                    // 1KM FLAG LOGIC
                     const currentKm = Math.floor(state.distance / 1000);
                     if (currentKm > state.lastKmMarker) {
                         state.lastKmMarker = currentKm;
-                        
-                        // Add marker
-                        state.markers.push({
-                            lat: latitude,
-                            lng: longitude,
-                            label: currentKm
-                        });
-
+                        state.markers.push({ lat: latitude, lng: longitude, label: currentKm });
                         showToast(`🚩 ${currentKm} KM Milestone!`);
                     }
                 }
             }
-
             state.lastPosition = { latitude, longitude };
             state.coords.push({ lat: latitude, lng: longitude });
 
-            // UI Updates
             const distKm = state.distance / 1000;
             ui.runDist.innerText = distKm.toFixed(2);
-            
-            // Speed
             let kph = speed ? (speed * 3.6) : 0;
             ui.runSpeed.innerText = kph.toFixed(1);
 
-            // Pace
             if (distKm > 0.05) {
                 const paceMins = (state.elapsedTime / 60) / distKm;
                 const pM = Math.floor(paceMins);
@@ -880,10 +825,7 @@
             const reader = new FileReader();
             reader.onload = (ev) => {
                 const img = new Image();
-                img.onload = () => {
-                    ui.uploadOverlay.style.display = 'none';
-                    drawRouteOnCanvas(img);
-                };
+                img.onload = () => { ui.uploadOverlay.style.display = 'none'; drawRouteOnCanvas(img); };
                 img.src = ev.target.result;
             };
             reader.readAsDataURL(file);
@@ -892,17 +834,13 @@
         function drawRouteOnCanvas(bgImage) {
             const ctx = ui.canvas.getContext('2d');
             const w = ui.canvas.width = 1080;
-            const h = ui.canvas.height = 1350; // 4:5 aspect ratio
+            const h = ui.canvas.height = 1350;
 
-            // 1. Background
             if (bgImage) {
-                // Cover fit
                 const ratio = Math.max(w / bgImage.width, h / bgImage.height);
                 const centerShift_x = (w - bgImage.width * ratio) / 2;
                 const centerShift_y = (h - bgImage.height * ratio) / 2;
                 ctx.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, centerShift_x, centerShift_y, bgImage.width * ratio, bgImage.height * ratio);
-                
-                // Dark overlay gradient
                 const grad = ctx.createLinearGradient(0, h/2, 0, h);
                 grad.addColorStop(0, "transparent");
                 grad.addColorStop(0.8, "rgba(0,0,0,0.85)");
@@ -911,36 +849,29 @@
             } else {
                 ctx.fillStyle = "#0f172a";
                 ctx.fillRect(0, 0, w, h);
-                // Grid pattern
                 ctx.strokeStyle = "#1e293b";
                 ctx.lineWidth = 2;
                 for(let i=0; i<w; i+=100) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,h); ctx.stroke(); }
                 for(let i=0; i<h; i+=100) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(w,i); ctx.stroke(); }
             }
 
-            // 2. Draw Route Path
             if (state.coords.length > 1) {
-                // Normalize coordinates to canvas
                 let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
                 state.coords.forEach(c => {
-                    if (c.lat < minLat) minLat = c.lat;
-                    if (c.lat > maxLat) maxLat = c.lat;
-                    if (c.lng < minLng) minLng = c.lng;
-                    if (c.lng > maxLng) maxLng = c.lng;
+                    if (c.lat < minLat) minLat = c.lat; if (c.lat > maxLat) maxLat = c.lat;
+                    if (c.lng < minLng) minLng = c.lng; if (c.lng > maxLng) maxLng = c.lng;
                 });
 
                 const padding = 200;
                 const availW = w - (padding*2);
-                const availH = (h/2) - padding; // Use top half
+                const availH = (h/2) - padding;
                 
                 const latRange = maxLat - minLat || 1;
                 const lngRange = maxLng - minLng || 1;
-                
-                // Scale to fit
                 const scale = Math.min(availW / lngRange, availH / latRange);
 
                 ctx.beginPath();
-                ctx.strokeStyle = "#10b981"; // Emerald
+                ctx.strokeStyle = "#10b981";
                 ctx.lineWidth = 15;
                 ctx.lineCap = "round";
                 ctx.lineJoin = "round";
@@ -948,72 +879,44 @@
                 ctx.shadowBlur = 20;
 
                 state.coords.forEach((c, i) => {
-                    // Mercator projection simplified
                     const x = padding + (c.lng - minLng) * scale;
-                    const y = (h * 0.4) - (c.lat - minLat) * scale; // Flip Y
-                    if (i===0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+                    const y = (h * 0.4) - (c.lat - minLat) * scale;
+                    if (i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
                 });
                 ctx.stroke();
-                ctx.shadowBlur = 0; // Reset
+                ctx.shadowBlur = 0;
 
-                // 2.5 Draw Markers
                 if(state.markers && state.markers.length > 0) {
                     state.markers.forEach(m => {
                         const x = padding + (m.lng - minLng) * scale;
                         const y = (h * 0.4) - (m.lat - minLat) * scale;
-
-                        // Draw Pole
-                        ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        ctx.lineTo(x, y - 50);
-                        ctx.lineWidth = 4;
-                        ctx.strokeStyle = "white";
-                        ctx.stroke();
-
-                        // Draw Flag
-                        ctx.beginPath();
-                        ctx.moveTo(x, y - 50);
-                        ctx.lineTo(x + 40, y - 35);
-                        ctx.lineTo(x, y - 20);
-                        ctx.fillStyle = "#f59e0b"; // Amber
-                        ctx.fill();
-                        
-                        // Text
-                        ctx.fillStyle = "white";
-                        ctx.font = "bold 24px Inter";
-                        ctx.textAlign = "center";
-                        ctx.fillText(m.label + "k", x, y + 30);
-                        ctx.textAlign = "left"; // reset
+                        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - 50); ctx.lineWidth = 4; ctx.strokeStyle = "white"; ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(x, y - 50); ctx.lineTo(x + 40, y - 35); ctx.lineTo(x, y - 20); ctx.fillStyle = "#f59e0b"; ctx.fill();
+                        ctx.fillStyle = "white"; ctx.font = "bold 24px Inter"; ctx.textAlign = "center"; ctx.fillText(m.label + "k", x, y + 30); ctx.textAlign = "left";
                     });
                 }
             }
 
-            // 3. Stats Text
             ctx.fillStyle = "white";
             ctx.font = "bold 160px Inter, sans-serif";
             const distTxt = (state.distance / 1000).toFixed(2);
             ctx.fillText(distTxt, 80, h - 350);
-            
             ctx.font = "bold 60px Inter, sans-serif";
             ctx.fillStyle = "#10b981";
             ctx.fillText("KILOMETERS", 80, h - 280);
 
-            // Metrics Row
             ctx.fillStyle = "#cbd5e1";
             ctx.font = "50px Inter, sans-serif";
             const timeTxt = formatTime(state.elapsedTime);
             const calTxt = state.calories + " Kcal";
             ctx.fillText(`${timeTxt} Duration  •  ${calTxt}`, 80, h - 180);
 
-            // Branding
             ctx.textAlign = "right";
             ctx.font = "bold 40px Inter, sans-serif";
             ctx.fillStyle = "rgba(255,255,255,0.5)";
             ctx.fillText("STRIDEQUEST", w - 80, 100);
-            ctx.textAlign = "left"; // Reset
+            ctx.textAlign = "left";
 
-            // Enable download
             ui.btnDownload.disabled = false;
             document.getElementById('btn-download').classList.remove('opacity-50', 'cursor-not-allowed');
         }
@@ -1046,16 +949,14 @@
         function generateDailyChallenge() {
             const today = new Date().toDateString();
             let c = JSON.parse(localStorage.getItem('sq_challenge'));
-            
             if (!c || c.date !== today) {
                 const types = ['dist', 'time'];
                 const type = types[Math.floor(Math.random()*types.length)];
-                
                 if (type === 'dist') {
-                    const target = 2000 + Math.floor(Math.random() * 3000); // 2-5km
+                    const target = 2000 + Math.floor(Math.random() * 3000); 
                     c = { date: today, type, target, reward: 100, desc: `Run ${(target/1000).toFixed(1)}km` };
                 } else {
-                    const target = 15 * 60; // 15 mins
+                    const target = 15 * 60; 
                     c = { date: today, type, target, reward: 150, desc: `Run for 15 mins` };
                 }
                 localStorage.setItem('sq_challenge', JSON.stringify(c));
@@ -1107,7 +1008,8 @@
             const totalC = state.runHistory.reduce((a,r) => a + (r.calories||0), 0);
             ui.totalCals.innerText = totalC;
 
-            ui.historyList.innerHTML = state.runHistory.slice(0,5).map(r => `
+            // Render list into ACTIVITY screen instead of DASHBOARD
+            ui.historyList.innerHTML = state.runHistory.map(r => `
                 <div class="glass p-4 rounded-xl flex justify-between items-center border border-white/5 relative group">
                     <div class="flex items-center gap-3">
                         <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400">
@@ -1129,14 +1031,10 @@
                 </div>
             `).join('');
             
-            // Re-render icons for new list items
             lucide.createIcons();
         }
 
-        // Add Delete function to window scope
         window.deleteRun = function(id) {
-            // Remove confirm() as it can be blocked. Using immediate delete with toast feedback.
-            // Converting to string for safe comparison in case IDs are mixed types
             state.runHistory = state.runHistory.filter(r => String(r.id) !== String(id));
             saveData();
             updateDashboard();
@@ -1150,56 +1048,37 @@
             }
         }
 
-        // --- CONFETTI EFFECT ---
         function confettiExplosion() {
             const canvas = document.getElementById('confetti-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
             const particles = [];
-            const particleCount = 100;
             const colors = ['#10b981', '#8b5cf6', '#f59e0b', '#3b82f6'];
-
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 100; i++) {
                 particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    w: Math.random() * 10 + 5,
-                    h: Math.random() * 10 + 5,
+                    x: canvas.width / 2, y: canvas.height / 2,
+                    w: Math.random() * 10 + 5, h: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    vx: (Math.random() - 0.5) * 20,
-                    vy: (Math.random() - 0.5) * 20,
-                    gravity: 0.5,
-                    life: 100
+                    vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20,
+                    gravity: 0.5, life: 100
                 });
             }
-
             function update() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach((p, i) => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += p.gravity;
-                    p.life--;
-                    p.w *= 0.95;
-                    p.h *= 0.95;
-
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(p.x, p.y, p.w, p.h);
-
+                    p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.life--;
+                    p.w *= 0.95; p.h *= 0.95;
+                    ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.w, p.h);
                     if (p.life <= 0) particles.splice(i, 1);
                 });
-
                 if (particles.length > 0) requestAnimationFrame(update);
                 else ctx.clearRect(0,0, canvas.width, canvas.height);
             }
             update();
         }
 
-        // Start App
         init();
-
     </script>
 </body>
 </html>
