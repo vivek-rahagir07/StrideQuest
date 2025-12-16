@@ -43,6 +43,11 @@
         }
         .animate-float { animation: float 3s ease-in-out infinite; }
 
+        @keyframes slide-in-top {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--dark); }
@@ -57,11 +62,37 @@
         
         /* Confetti Canvas */
         #confetti-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; width: 100vw; height: 100vh; }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: none;
+            animation: slide-in-top 0.3s ease-out;
+        }
+
+        /* Chat Specific */
+        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 0.9rem; line-height: 1.4; animation: slide-up 0.3s ease-out; }
+        .chat-user { align-self: flex-end; background-color: #10b981; color: #020617; border-bottom-right-radius: 4px; }
+        .chat-bot { align-self: flex-start; background-color: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0; border-bottom-left-radius: 4px; }
+        .typing-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #94a3b8; animation: typing 1.4s infinite ease-in-out both; margin: 0 2px; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden text-slate-100 selection:bg-emerald-500 selection:text-white">
 
     <canvas id="confetti-canvas"></canvas>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="bg-emerald-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-2 border border-white/20">
+        <i data-lucide="flag" class="w-5 h-5 fill-current"></i>
+        <span id="toast-message">Notification</span>
+    </div>
 
     <!-- Header -->
     <header class="bg-slate-900/80 backdrop-blur-md border-b border-white/5 p-4 flex justify-between items-center z-10 shrink-0">
@@ -76,13 +107,13 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 relative overflow-y-auto overflow-x-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+    <main class="flex-1 relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black flex flex-col">
         
         <!-- SCREEN 1: DASHBOARD -->
-        <div id="screen-dashboard" class="screen active flex-col p-6 gap-6 min-h-full pb-28 w-full max-w-lg mx-auto">
+        <div id="screen-dashboard" class="screen active flex-col p-6 gap-6 overflow-y-auto pb-28 w-full max-w-lg mx-auto h-full">
             
             <!-- Daily Challenge Card -->
-            <div class="relative group">
+            <div class="relative group shrink-0">
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
                 <div class="relative bg-slate-900 rounded-2xl p-6 shadow-2xl overflow-hidden border border-white/10">
                     <div class="absolute top-0 right-0 p-4 opacity-10 rotate-12 transform scale-150">
@@ -108,7 +139,7 @@
             </div>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-2 gap-4 animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="grid grid-cols-2 gap-4 animate-slide-up shrink-0" style="animation-delay: 0.1s;">
                 <div class="glass p-5 rounded-2xl">
                     <div class="flex items-center gap-2 mb-2 text-emerald-400">
                         <i data-lucide="map" class="w-4 h-4"></i>
@@ -160,7 +191,9 @@
                 
                 <div class="mb-12 text-center animate-float">
                     <div class="text-slate-500 text-xs font-bold uppercase tracking-[0.2em] mb-4">Total Time</div>
-                    <div id="timer-display" class="text-7xl font-mono font-black tracking-tighter text-white tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">00:00</div>
+                    <!-- Added visual feedback for paused state -->
+                    <div id="timer-display" class="text-7xl font-mono font-black tracking-tighter text-white tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-colors duration-300">00:00</div>
+                    <div id="auto-pause-indicator" class="text-yellow-500 text-xs font-bold uppercase tracking-widest mt-2 hidden animate-pulse">Auto-Paused</div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-x-8 gap-y-10 w-full mb-16">
@@ -194,7 +227,7 @@
         </div>
 
         <!-- SCREEN 3: SUMMARY -->
-        <div id="screen-summary" class="screen flex-col p-6 min-h-full pb-20 w-full max-w-lg mx-auto">
+        <div id="screen-summary" class="screen flex-col p-6 min-h-full pb-20 w-full max-w-lg mx-auto overflow-y-auto">
             
             <div class="text-center mb-6 animate-slide-up">
                 <div class="inline-block p-3 rounded-full bg-emerald-500/10 mb-3 border border-emerald-500/20">
@@ -251,7 +284,7 @@
         </div>
 
         <!-- SCREEN 4: PROFILE -->
-        <div id="screen-profile" class="screen flex-col p-6 min-h-full pb-28 w-full max-w-lg mx-auto">
+        <div id="screen-profile" class="screen flex-col p-6 min-h-full pb-28 w-full max-w-lg mx-auto overflow-y-auto">
             <h2 class="text-2xl font-bold mb-6">Settings & Profile</h2>
             
             <div class="glass p-6 rounded-2xl mb-6 space-y-4">
@@ -280,23 +313,68 @@
             </div>
         </div>
 
+        <!-- SCREEN 5: AI COACH CHAT -->
+        <div id="screen-chat" class="screen flex-col min-h-full w-full max-w-lg mx-auto relative h-full">
+            <div class="p-4 bg-slate-900/90 backdrop-blur border-b border-white/5 sticky top-0 z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                        <i data-lucide="bot" class="w-6 h-6 text-slate-900"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-white leading-none">Coach Stride</h2>
+                        <div class="flex items-center gap-1.5 mt-1 text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Online & Ready
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto pb-28">
+                <!-- Intro Message -->
+                <div class="flex gap-3 chat-bubble chat-bot">
+                    <div class="flex-1">
+                        Hello! I'm Coach Stride. I can help with running tips, nutrition advice, gear recommendations, and recovery strategies. Ask me anything!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-slate-900 border-t border-white/5 backdrop-blur-md shrink-0 mb-[70px]">
+                <form id="chat-form" class="flex gap-2 relative">
+                    <input type="text" id="chat-input" class="flex-1 bg-slate-800 border border-slate-700 text-white text-sm rounded-full pl-5 pr-4 py-3.5 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner" placeholder="Ask about warmups, diet, pain..." autocomplete="off">
+                    <button type="submit" class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-slate-900 hover:bg-emerald-400 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 shrink-0">
+                        <i data-lucide="send" class="w-5 h-5 ml-0.5"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <!-- Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 glass-panel pb-safe pt-2 px-6 flex justify-around items-end z-50">
-        <button class="nav-btn active p-3 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="dashboard">
+    <nav class="fixed bottom-0 left-0 right-0 glass-panel pb-safe pt-2 px-6 flex justify-between items-end z-50">
+        <button class="nav-btn active p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="dashboard">
             <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
             <span class="text-[10px] font-bold">Run</span>
         </button>
+
+        <button class="nav-btn p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="chat">
+            <i data-lucide="message-square-more" class="w-6 h-6"></i>
+            <span class="text-[10px] font-bold">Coach</span>
+        </button>
         
         <!-- Floating Action Button effect for center -->
-        <div class="relative -top-5">
-            <button id="nav-btn-center" class="w-14 h-14 bg-emerald-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center justify-center text-white hover:bg-emerald-400 transition-all hover:scale-105" onclick="document.getElementById('btn-start-run').click()">
+        <div class="relative -top-5 mx-2">
+            <button id="nav-btn-center" class="w-14 h-14 bg-emerald-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center justify-center text-white hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95" onclick="document.getElementById('btn-start-run').click()">
                 <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
             </button>
         </div>
 
-        <button class="nav-btn p-3 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="profile">
+        <!-- Spacer for center button balance if needed, but flex-between handles it with margins -->
+        
+        <button class="nav-btn p-3 w-16 flex flex-col items-center gap-1 text-slate-500 transition-colors" data-target="profile">
             <i data-lucide="user" class="w-6 h-6"></i>
             <span class="text-[10px] font-bold">Profile</span>
         </button>
@@ -307,15 +385,20 @@
         const CONFIG = {
             MET_RUNNING: 9.8, // Approximate MET for moderate running
             DEFAULT_WEIGHT: 70, // kg
+            MIN_MOVEMENT_SPEED: 0.8 // m/s (approx 2.9 km/h) below this is considered "stopped"
         };
 
         const state = {
             isRunning: false,
+            isAutoPaused: false, // Auto-pause state
+            lowSpeedCounter: 0,  // Counts stationary readings
             startTime: 0,
             elapsedTime: 0,
             distance: 0,
             calories: 0,
             coords: [], // Array of {lat, lng}
+            markers: [], // Array of {lat, lng, label} for 1km flags
+            lastKmMarker: 0, // Last km milestone reached
             watchId: null,
             wakeLock: null,
             
@@ -334,7 +417,8 @@
                 dashboard: document.getElementById('screen-dashboard'),
                 run: document.getElementById('screen-run'),
                 summary: document.getElementById('screen-summary'),
-                profile: document.getElementById('screen-profile')
+                profile: document.getElementById('screen-profile'),
+                chat: document.getElementById('screen-chat')
             },
             navBtns: document.querySelectorAll('.nav-btn'),
             
@@ -348,6 +432,7 @@
 
             // Run
             timer: document.getElementById('timer-display'),
+            autoPauseIndicator: document.getElementById('auto-pause-indicator'),
             runDist: document.getElementById('run-dist'),
             runPace: document.getElementById('run-pace'),
             runCals: document.getElementById('run-cals'),
@@ -370,8 +455,61 @@
             inputName: document.getElementById('input-name'),
             inputWeight: document.getElementById('input-weight'),
             profileRuns: document.getElementById('profile-total-runs'),
-            profileXp: document.getElementById('profile-xp')
+            profileXp: document.getElementById('profile-xp'),
+            
+            // Toast
+            toast: document.getElementById('toast'),
+            toastMsg: document.getElementById('toast-message'),
+
+            // Chat
+            chatForm: document.getElementById('chat-form'),
+            chatInput: document.getElementById('chat-input'),
+            chatMessages: document.getElementById('chat-messages')
         };
+
+        // --- CHAT KNOWLEDGE BASE ---
+        const chatDB = [
+            {
+                keywords: ['hydration', 'water', 'drink', 'thirsty'],
+                response: "Hydration is key! Drink 500ml of water about 2 hours before a long run. During runs longer than an hour, aim for sips every 20 minutes. Don't forget to rehydrate after you finish!"
+            },
+            {
+                keywords: ['food', 'eat', 'nutrition', 'diet', 'protein', 'carb'],
+                response: "Fuel your runs with complex carbs (oats, pasta, rice) for energy. After running, consume protein (chicken, eggs, tofu) within 30 minutes to help muscle repair. Bananas are a great pre-run snack!"
+            },
+            {
+                keywords: ['stretch', 'warm', 'cool', 'tight', 'flexible'],
+                response: "Always warm up with dynamic stretches (leg swings, high knees) to get blood flowing. Save static stretching (holding a pose) for your cool-down to improve flexibility and reduce soreness."
+            },
+            {
+                keywords: ['pain', 'hurt', 'injury', 'knee', 'shin', 'sore'],
+                response: "Listen to your body. Sharp pain means STOP. For general soreness, Rest, Ice, Compression, and Elevation (RICE) works wonders. If pain persists for more than 3 days, see a professional."
+            },
+            {
+                keywords: ['shoe', 'gear', 'wear', 'clothes', 'socks'],
+                response: "Good shoes are your most important gear! Replace them every 500-800 km. Wear moisture-wicking fabrics (avoid cotton) to prevent chafing and stay cool."
+            },
+            {
+                keywords: ['weight', 'fat', 'loss', 'burn'],
+                response: "Running burns significant calories! To lose weight, combine consistent running (3-4 times/week) with a slight caloric deficit. Consistency beats intensity for long-term results."
+            },
+            {
+                keywords: ['fast', 'speed', 'pace', 'improve'],
+                response: "To get faster, try interval training: alternate between 1 minute of hard running and 2 minutes of jogging. Also, don't neglect your long, slow runs—they build the endurance base you need for speed."
+            },
+            {
+                keywords: ['tired', 'motivat', 'lazy', 'give up'],
+                response: "Every runner has bad days. The hardest step is often the one out the door. Try putting on your running clothes; usually, the motivation follows. You got this!"
+            },
+            {
+                keywords: ['hello', 'hi', 'hey'],
+                response: "Hi there! I'm ready to help you hit your goals. What's on your mind today?"
+            },
+            {
+                keywords: ['thank', 'thx'],
+                response: "You're welcome! Keep up the great work!"
+            }
+        ];
 
         // --- INITIALIZATION ---
         function init() {
@@ -389,6 +527,7 @@
             document.getElementById('btn-download').addEventListener('click', downloadCard);
             
             ui.photoInput.addEventListener('change', handlePhotoUpload);
+            ui.chatForm.addEventListener('submit', handleChatSubmit);
 
             // Time updater for run screen
             setInterval(() => {
@@ -428,6 +567,85 @@
             // Refresh icons or specific screen data
             if(screenName === 'dashboard') updateDashboard();
             if(screenName === 'profile') loadProfileUI();
+            if(screenName === 'chat') {
+                setTimeout(() => ui.chatMessages.scrollTop = ui.chatMessages.scrollHeight, 100);
+            }
+        }
+
+        function showToast(msg) {
+            ui.toastMsg.innerText = msg;
+            ui.toast.style.display = 'flex';
+            setTimeout(() => {
+                ui.toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- CHAT LOGIC ---
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const text = ui.chatInput.value.trim();
+            if(!text) return;
+
+            // 1. User Message
+            appendMessage('user', text);
+            ui.chatInput.value = '';
+
+            // 2. Typing Indicator
+            const typingId = showTyping();
+            
+            // 3. Process Response
+            setTimeout(() => {
+                removeTyping(typingId);
+                const response = findBestResponse(text);
+                appendMessage('bot', response);
+            }, 800 + Math.random() * 800); // Simulate network delay
+        }
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `flex gap-3 chat-bubble ${role === 'user' ? 'chat-user ml-auto' : 'chat-bot'}`;
+            
+            // For bot, add icon if desired, keeping simple text bubble for now
+            div.innerHTML = text;
+            
+            ui.chatMessages.appendChild(div);
+            ui.chatMessages.scrollTop = ui.chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            const id = 'typing-' + Date.now();
+            div.id = id;
+            div.className = 'flex gap-3 chat-bubble chat-bot w-16 items-center justify-center';
+            div.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>`;
+            ui.chatMessages.appendChild(div);
+            ui.chatMessages.scrollTop = ui.chatMessages.scrollHeight;
+            return id;
+        }
+
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if(el) el.remove();
+        }
+
+        function findBestResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            // Look for match in DB
+            for(const item of chatDB) {
+                if(item.keywords.some(k => lowerInput.includes(k))) {
+                    return item.response;
+                }
+            }
+            
+            // Fallbacks
+            const fallbacks = [
+                "That's an interesting running topic! Could you be more specific?",
+                "I'm mostly an expert on running, nutrition, and gear. Can you rephrase that?",
+                "I'm training hard to learn more. For now, try asking about diet, shoes, or warmups!",
+                "Keep going! Running is as much mental as it is physical."
+            ];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
         }
 
         // --- CORE RUN LOGIC ---
@@ -442,12 +660,16 @@
             requestWakeLock();
             
             state.isRunning = true;
+            state.isAutoPaused = false;
             state.startTime = Date.now();
             state.elapsedTime = 0;
             state.distance = 0;
             state.calories = 0;
             state.coords = [];
+            state.markers = [];
             state.lastPosition = null;
+            state.lastKmMarker = 0;
+            state.lowSpeedCounter = 0;
 
             // Reset UI
             ui.runDist.innerText = "0.00";
@@ -455,6 +677,8 @@
             ui.runCals.innerText = "0";
             ui.runSpeed.innerText = "0.0";
             ui.timer.innerText = "00:00";
+            ui.timer.classList.remove('text-yellow-500');
+            ui.autoPauseIndicator.classList.add('hidden');
             
             switchScreen('run');
             document.querySelector('nav').style.display = 'none'; // Hide nav during run
@@ -499,7 +723,8 @@
                 distance: state.distance,
                 duration: state.elapsedTime,
                 calories: state.calories,
-                coords: [...state.coords], // Save path
+                coords: [...state.coords],
+                markers: [...state.markers],
                 xp: earnedXP
             };
             
@@ -520,7 +745,7 @@
                 ui.challengeBox.classList.remove('flex');
             }
 
-            // Route Visualization (Default Black Canvas with Route)
+            // Route Visualization
             ui.uploadOverlay.style.display = 'flex'; // Show upload prompt
             drawRouteOnCanvas(null); // Draw route on black background initially
 
@@ -529,13 +754,19 @@
         }
 
         function updateRunState() {
-            state.elapsedTime = Math.floor((Date.now() - state.startTime) / 1000);
-            ui.timer.innerText = formatTime(state.elapsedTime);
-            
-            // Calorie Calc: MET * Kg * Hours
-            const hours = state.elapsedTime / 3600;
-            state.calories = Math.floor(CONFIG.MET_RUNNING * state.userWeight * hours);
-            ui.runCals.innerText = state.calories;
+            // Only update time if not paused
+            if (!state.isAutoPaused) {
+                // We use increment approach or date diff. Since we pause, simple increment is safer to avoid jumps.
+                // However, date diff is more accurate for drift. 
+                // Let's use a simple counter for simplicity in this paused-based context.
+                state.elapsedTime += 1;
+                ui.timer.innerText = formatTime(state.elapsedTime);
+                
+                // Calorie Calc: MET * Kg * Hours
+                const hours = state.elapsedTime / 3600;
+                state.calories = Math.floor(CONFIG.MET_RUNNING * state.userWeight * hours);
+                ui.runCals.innerText = state.calories;
+            }
         }
 
         // --- GPS HANDLERS ---
@@ -545,13 +776,50 @@
             // Signal UI
             if (accuracy < 20) {
                 ui.gpsDot.className = "w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]";
-                ui.gpsText.innerText = "GPS LOCKED";
+                ui.gpsText.innerText = state.isAutoPaused ? "AUTO-PAUSED" : "GPS LOCKED";
             } else {
                 ui.gpsDot.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse";
                 ui.gpsText.innerText = "SEARCHING";
             }
 
             if (accuracy > 40) return; // Filter weak signals
+
+            // AUTO PAUSE LOGIC
+            // Use GPS speed if available, otherwise assume movement if we have distance
+            // 0.8 m/s is roughly 2.8 km/h. Walking speed is ~1.4 m/s.
+            let currentSpeed = speed;
+            if (currentSpeed === null && state.lastPosition) {
+                // Fallback calc if hardware speed is null
+                // Note: accurate fallback requires precise timestamps which we can add later if needed
+                // For now, if speed is null, we might skip auto-pause or be lenient.
+                currentSpeed = 1.0; // Assume moving if no speed data to prevent false pause
+            }
+
+            if (currentSpeed !== null && currentSpeed < CONFIG.MIN_MOVEMENT_SPEED) {
+                state.lowSpeedCounter++;
+                // If low speed for 5 seconds, Pause
+                if (state.lowSpeedCounter > 5 && !state.isAutoPaused) {
+                    state.isAutoPaused = true;
+                    // Visual feedback
+                    ui.timer.classList.add('text-yellow-500');
+                    ui.autoPauseIndicator.classList.remove('hidden');
+                    ui.gpsText.innerText = "AUTO-PAUSED";
+                }
+            } else {
+                // Moving
+                state.lowSpeedCounter = 0;
+                if (state.isAutoPaused) {
+                    // RESUME
+                    state.isAutoPaused = false;
+                    ui.timer.classList.remove('text-yellow-500');
+                    ui.autoPauseIndicator.classList.add('hidden');
+                    ui.gpsText.innerText = "GPS LOCKED";
+                }
+            }
+
+            // If paused, do not record distance/coords
+            if (state.isAutoPaused) return;
+
 
             if (state.lastPosition) {
                 const distIncrement = calculateDistance(
@@ -561,6 +829,21 @@
 
                 if (distIncrement > 2) { // 2m threshold for jitter
                     state.distance += distIncrement;
+                    
+                    // 1KM FLAG LOGIC
+                    const currentKm = Math.floor(state.distance / 1000);
+                    if (currentKm > state.lastKmMarker) {
+                        state.lastKmMarker = currentKm;
+                        
+                        // Add marker
+                        state.markers.push({
+                            lat: latitude,
+                            lng: longitude,
+                            label: currentKm
+                        });
+
+                        showToast(`🚩 ${currentKm} KM Milestone!`);
+                    }
                 }
             }
 
@@ -673,6 +956,37 @@
                 });
                 ctx.stroke();
                 ctx.shadowBlur = 0; // Reset
+
+                // 2.5 Draw Markers
+                if(state.markers && state.markers.length > 0) {
+                    state.markers.forEach(m => {
+                        const x = padding + (m.lng - minLng) * scale;
+                        const y = (h * 0.4) - (m.lat - minLat) * scale;
+
+                        // Draw Pole
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(x, y - 50);
+                        ctx.lineWidth = 4;
+                        ctx.strokeStyle = "white";
+                        ctx.stroke();
+
+                        // Draw Flag
+                        ctx.beginPath();
+                        ctx.moveTo(x, y - 50);
+                        ctx.lineTo(x + 40, y - 35);
+                        ctx.lineTo(x, y - 20);
+                        ctx.fillStyle = "#f59e0b"; // Amber
+                        ctx.fill();
+                        
+                        // Text
+                        ctx.fillStyle = "white";
+                        ctx.font = "bold 24px Inter";
+                        ctx.textAlign = "center";
+                        ctx.fillText(m.label + "k", x, y + 30);
+                        ctx.textAlign = "left"; // reset
+                    });
+                }
             }
 
             // 3. Stats Text
@@ -794,7 +1108,7 @@
             ui.totalCals.innerText = totalC;
 
             ui.historyList.innerHTML = state.runHistory.slice(0,5).map(r => `
-                <div class="glass p-4 rounded-xl flex justify-between items-center border border-white/5">
+                <div class="glass p-4 rounded-xl flex justify-between items-center border border-white/5 relative group">
                     <div class="flex items-center gap-3">
                         <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400">
                             <i data-lucide="activity" class="w-5 h-5"></i>
@@ -804,13 +1118,30 @@
                             <div class="text-[10px] text-slate-500 uppercase font-bold">${new Date(r.date).toLocaleDateString()}</div>
                         </div>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right mr-6">
                         <div class="font-mono text-indigo-300 font-bold">${formatTime(r.duration)}</div>
                         <div class="text-xs text-slate-500">${r.calories || 0} cal</div>
                     </div>
+                    
+                    <button onclick="event.stopPropagation(); window.deleteRun('${r.id || 0}')" class="absolute top-1/2 -translate-y-1/2 right-2 p-2 text-slate-500 hover:text-red-400 hover:bg-white/5 rounded-full transition-all z-20 cursor-pointer">
+                        <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
+                    </button>
                 </div>
             `).join('');
+            
+            // Re-render icons for new list items
+            lucide.createIcons();
         }
+
+        // Add Delete function to window scope
+        window.deleteRun = function(id) {
+            // Remove confirm() as it can be blocked. Using immediate delete with toast feedback.
+            // Converting to string for safe comparison in case IDs are mixed types
+            state.runHistory = state.runHistory.filter(r => String(r.id) !== String(id));
+            saveData();
+            updateDashboard();
+            showToast("Run deleted");
+        };
 
         async function requestWakeLock() {
             if ('wakeLock' in navigator) {
